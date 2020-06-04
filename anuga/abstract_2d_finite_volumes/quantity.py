@@ -921,7 +921,7 @@ class Quantity:
                                       max_read_lines=max_read_lines,
                                       use_cache=use_cache)
             # dem file in the format of .asc, .grd or .dem
-            elif filename_ext in ['.asc', '.grd', '.dem']:
+            elif filename_ext in ['.asc', '.grd', '.dem', '.tif']:
                 self.set_values_from_utm_grid_file(filename, location,
                       indices, verbose=verbose)
             else:
@@ -1334,6 +1334,7 @@ class Quantity:
 
         from anuga.file_conversion.grd2array import grd2array
         from anuga.file_conversion.dem2array import dem2array
+        from anuga.file_conversion.tif2array import tif2array
 
         filename_ext = os.path.splitext(filename)[1]
 
@@ -1341,6 +1342,8 @@ class Quantity:
             x,y,Z = grd2array(filename)
         elif filename_ext == '.dem':
             x,y,Z = dem2array(filename)
+        elif filename_ext == '.tif':
+            x,y,Z= tif2array(filename)
 
         if location == 'centroids':
             points = self.domain.centroid_coordinates
