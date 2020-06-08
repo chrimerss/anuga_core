@@ -73,13 +73,14 @@ domain= distribute(domain)
 #domain.set_timestamp('20170825180000', format='%Y%m%d%H%M%S')
 #domain.set_time_interval('1H')
 
-domain.set_evap_dir('/hydros/MengyuChen/pet', pattern='cov_et17%m%d.asc', freq='D')
-domain.set_precip_dir('/home/ZhiLi/CRESTHH/data/precip',pattern='nimerg%Y%m%dS%H%M%S.tif', freq='H')
+domain.set_evap_dir('/hydros/MengyuChen/pet', pattern='cov_et17%m%d.asc', freq='1D')
+# domain.set_precip_dir('/home/ZhiLi/CRESTHH/data/precip',pattern='nimerg%Y%m%dS%H%M%S.tif', freq='H')
+domain.set_precip_dir('/hydros/MengyuChen/mrmsPrecRate',pattern='PrecipRate_00.00_%Y%m%d-%H%M00.grib2-var0-z0.tif', freq='2M')
 domain.set_timestamp('20170825180000', format='%Y%m%d%H%M%S')
 domain.set_time_interval('1H')
 
 
-for t in domain.evolve(yieldstep=3600, duration=3600*6):
+for t in domain.evolve(yieldstep=120, duration=3600*6):
     if myid==0:
         domain.write_time()
 
