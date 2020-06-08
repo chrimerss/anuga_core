@@ -23,7 +23,7 @@ def tif2array(filename, variable_name='elevation',
         Z= Z.transpose()
     elif y_res>=0:
         x= np.linspace(x_origin, x_origin+(ncols-1)*x_res, ncols)
-        y= np.linspace(y_origin+(nrows-1)*y_res, y_origin, nrows)
+        y= np.linspace(y_origin, y_origin+(nrows-1)*y_res, nrows)
         Z= Z.transpose()
     
     
