@@ -35,6 +35,7 @@ import anuga.utilities.log as log
 
 
 import numpy as num
+from affine import Affine
 
 
 class Quantity:
@@ -1478,11 +1479,7 @@ class Quantity:
 
         filename_ext = os.path.splitext(filename)[1]
 
-        if filename_ext in ['.tif']:
-            x,y,Z = tif2array_lat_long(filename, proj=proj)
-        else:
-            msg= 'The file extension is not suportted... Only .tif are supported.'
-            Exception(msg)
+
 
         if location == 'centroids':
             points = self.domain.centroid_coordinates
@@ -1498,7 +1495,22 @@ class Quantity:
 
         #print points
         #TODO use affine to retrieve value
-        values = interpolate2d(x, y, Z, points, mode='linear', bounds_error=False)
+        # values = interpolate2d(x, y, Z, points, mode='constant', bounds_error=False)
+
+        # ===update date: 2020/06/08 by Allen
+        if filename_ext in ['.tif']:
+                values = tif2array_lat_long(filename, proj=proj, points=points)
+        else:
+            msg= 'The file extension is not suportted... Only .tif are supported.'
+            Exception(msg)
+        # print values
+        # a = Affine.from_gdal(x[0],x[1]-x[0],0,y[0],0,y[1]-y[0])
+        # ilocs= num.array(~a * (points[:,0], points[:,1]))
+        # print ilocs.shape
+        
+        # rows, cols= ilocs.astype(int)[0,:], ilocs.astype(int)[1,:]
+        # print Z.shape, rows.max(), cols.max()
+        # values= Z[rows, cols]
 
         #print values
 
@@ -1595,7 +1607,7 @@ class Quantity:
         from  anuga.fit_interpolate.interpolate2d import interpolate2d
 
         #print points
-        values = interpolate2d(x, y, Z, points, mode='linear', bounds_error=False)
+        values = interpolate2d(x, y, Z, points, mode='constant', bounds_error=False)
 
         #print values
 
